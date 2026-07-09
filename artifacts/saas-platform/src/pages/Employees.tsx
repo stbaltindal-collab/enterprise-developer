@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation, Link } from 'wouter';
-import { useListEmployees, useDeleteEmployee, useGetCurrentUser, useListCompanies, getListEmployeesQueryKey } from '@workspace/api-client-react';
+import { useListEmployees, useDeleteEmployee, useGetCurrentUser, useListCompanies, getListCompaniesQueryKey, getListEmployeesQueryKey } from '@workspace/api-client-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
@@ -28,7 +28,7 @@ export default function Employees() {
 
   const { data: companiesData } = useListCompanies(
     { limit: 100 }, 
-    { query: { enabled: isSuperAdmin } }
+    { query: { enabled: isSuperAdmin, queryKey: getListCompaniesQueryKey({ limit: 100 }) } }
   );
 
   const { data, isLoading } = useListEmployees({ 

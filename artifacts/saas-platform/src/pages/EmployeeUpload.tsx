@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useLocation, Link } from 'wouter';
-import { useGetCurrentUser, useListCompanies, EmployeeUploadResult } from '@workspace/api-client-react';
+import { useGetCurrentUser, useListCompanies, getListCompaniesQueryKey, EmployeeUploadResult } from '@workspace/api-client-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -25,7 +25,7 @@ export default function EmployeeUpload() {
 
   const { data: companiesData } = useListCompanies(
     { limit: 100 }, 
-    { query: { enabled: isSuperAdmin } }
+    { query: { enabled: isSuperAdmin, queryKey: getListCompaniesQueryKey({ limit: 100 }) } }
   );
 
   const handleDragOver = (e: React.DragEvent) => {

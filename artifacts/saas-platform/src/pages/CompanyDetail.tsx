@@ -22,7 +22,7 @@ export default function CompanyDetail() {
   const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
 
-  const { data: company, isLoading, isError } = useGetCompany(companyId, { query: { enabled: !!companyId } });
+  const { data: company, isLoading, isError } = useGetCompany(companyId, { query: { enabled: !!companyId, queryKey: getGetCompanyQueryKey(companyId) } });
   const { data: employeesData, isLoading: employeesLoading } = useListEmployees({ companyId, limit: 10 });
   const { data: usersData, isLoading: usersLoading } = useListUsers({ companyId, limit: 10 });
   

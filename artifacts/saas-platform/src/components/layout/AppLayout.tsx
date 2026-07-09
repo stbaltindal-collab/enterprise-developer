@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { useGetCurrentUser, useLogout, AuthUser } from '@workspace/api-client-react';
+import { useGetCurrentUser, useLogout, AuthUser, getGetCurrentUserQueryKey } from '@workspace/api-client-react';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -130,7 +130,9 @@ function TopNav({ user }: { user: AuthUser }) {
 }
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const { data: user, isLoading, isError } = useGetCurrentUser();
+  const { data: user, isLoading, isError } = useGetCurrentUser({
+    query: { retry: false, queryKey: getGetCurrentUserQueryKey() },
+  });
   const [, setLocation] = useLocation();
 
   useEffect(() => {

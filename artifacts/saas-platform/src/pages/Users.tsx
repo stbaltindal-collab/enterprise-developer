@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useListUsers, useDeleteUser, useGetCurrentUser, useCreateUser, useListCompanies, getListUsersQueryKey } from '@workspace/api-client-react';
+import { useListUsers, useDeleteUser, useGetCurrentUser, useCreateUser, useListCompanies, getListCompaniesQueryKey, getListUsersQueryKey } from '@workspace/api-client-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -40,7 +40,7 @@ export default function Users() {
 
   const { data: companiesData } = useListCompanies(
     { limit: 100 }, 
-    { query: { enabled: isSuperAdmin } }
+    { query: { enabled: isSuperAdmin, queryKey: getListCompaniesQueryKey({ limit: 100 }) } }
   );
 
   const { data, isLoading } = useListUsers({ 

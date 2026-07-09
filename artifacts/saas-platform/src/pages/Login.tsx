@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { useLogin, useGetCurrentUser } from '@workspace/api-client-react';
+import { useLogin, useGetCurrentUser, getGetCurrentUserQueryKey } from '@workspace/api-client-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,9 +22,7 @@ export default function Login() {
   const [, setLocation] = useLocation();
   const loginMutation = useLogin();
   const { data: user, isLoading: isLoadingUser } = useGetCurrentUser({
-    query: {
-      retry: false,
-    }
+    query: { retry: false, queryKey: getGetCurrentUserQueryKey() },
   });
 
   useEffect(() => {
@@ -131,7 +129,7 @@ export default function Login() {
                 
                 {loginMutation.isError && (
                   <div className="p-3 rounded-md bg-destructive/10 text-destructive text-sm font-medium">
-                    {loginMutation.error?.error || 'Invalid credentials. Please try again.'}
+                    {(loginMutation.error?.data as { error?: string })?.error || loginMutation.error?.message || 'Invalid credentials. Please try again.'}
                   </div>
                 )}
 
