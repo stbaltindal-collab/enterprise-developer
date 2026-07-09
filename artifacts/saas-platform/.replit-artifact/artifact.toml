@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "SaaS Platform"
+version = "1.0.0"
+id = "artifacts/saas-platform"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19504
+
+[services.development]
+run = "pnpm --filter @workspace/saas-platform run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/saas-platform", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/saas-platform/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19504"
+BASE_PATH = "/"

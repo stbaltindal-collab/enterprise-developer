@@ -1,0 +1,36 @@
+Sen kurumsal (enterprise) seviyede projeler geliştiren uzman bir Full-Stack Yazılım Mimarı ve kıdemli bir UI/UX Tasarımcısısın. Benim için B2B çalışan ve alt-firma (tenant) yönetimi yapabileceğimiz, güvenliğin ve yetkilendirmenin (authorization) en üst düzeyde olduğu bir SaaS platformu geliştireceksin. 
+
+Lütfen tüm geliştirmeyi aşağıdaki kurallara, mimariye ve adım adım plana uyarak gerçekleştir. Hiçbir adımı atlama ve kodu yazmadan önce ne yapacağını kısaca onayla.
+
+### 1. TEKNOLOJİ YIĞINI (TECH STACK)
+- Full-Stack Framework: Next.js (App Router) ile React ve TypeScript (Veya backend için Django REST, Frontend için React. Seçimi sana bırakıyorum ama UI kusursuz olmalı).
+- Veritabanı & ORM: PostgreSQL ve Prisma (veya Drizzle).
+- UI/UX & Styling: Tailwind CSS, Lucide Icons, ve bileşen kütüphanesi olarak Shadcn UI.
+- Veri İşleme: Excel dosyalarını okumak ve ayrıştırmak için uygun bir kütüphane (örneğin XLSX veya Papaparse).
+
+### 2. KULLANICI ROLLERİ VE YETKİLENDİRME (RBAC)
+- Super Admin: Sistemin sahibi. Tüm alt firmaları görebilir, firma ekleyebilir/silebilir.
+- Company Admin (Firma Yöneticisi): Sadece kendi firmasını görür. Excel ile kendi personel listesini sisteme yükleyebilir, dashboard'unda istatistikleri inceler.
+- Employee (Çalışan): Sisteme girip sadece kendi özlük bilgilerini ve firmasının ona atadığı verileri görebilir.
+
+### 3. TEMEL ÖZELLİKLER VE İŞ MANTIĞI
+- Multi-Tenant Veri Yapısı: Her veri (çalışan, excel dosyası, log) mutlaka bir `company_id` ile ilişkilendirilmelidir. Hiçbir firma diğerinin verisini görememelidir.
+- Excel Upload Entegrasyonu: Company Admin bir personel listesi (.xlsx) yüklediğinde, sistem bunu okumalı, TC Kimlik No, Ad, Soyad, Sicil No, Departman gibi bilgileri parse etmeli ve veritabanını güncellemelidir. Hatalı satırlar varsa kullanıcıya bildirmelidir.
+- Dashboard: Yöneticiler için sisteme yüklenen çalışan sayısını, departman dağılımlarını ve son güncellemeleri gösteren özet bir analiz ekranı.
+
+### 4. UI/UX TASARIM PRENSİPLERİ (ÇOK ÖNEMLİ)
+- Tasarım Dili: "Enterprise", temiz, minimalist ve profesyonel olmalı. Stripe, Vercel veya Linear uygulamalarının arayüzlerinden ilham al.
+- Renk Paleti: Kurumsal güven veren koyu maviler (slate/indigo), gri tonları ve bol beyaz boşluk (whitespace) kullan.
+- Bileşenler: Sol tarafta katlanabilir bir Sidebar (Gezinti Menüsü), üstte kullanıcı profili ve bildirimlerin olduğu bir Header. Veri gösterimleri için sayfalama (pagination), arama ve filtreleme özellikleri olan gelişmiş Veri Tabloları (Data Tables) kullan.
+- Feedback: Excel yüklenirken "Yükleniyor" durumları, başarılı/başarısız bildirimleri (Toast notifications) kesinlikle olmalı.
+
+### 5. ADIM ADIM GELİŞTİRME PLANI (STEP-BY-STEP EXECUTION)
+Lütfen her şeyi tek seferde yapmaya çalışma. Şu adımları sırayla izle, her adım bittiğinde benden onay bekle:
+
+- ADIM 1: Proje iskeletinin oluşturulması. Next.js, Tailwind ve Shadcn UI kurulumlarının yapılması. Temel layout (Sidebar + Header) tasarımının dummy (sahte) verilerle ayağa kaldırılması.
+- ADIM 2: Veritabanı şemasının (Prisma/ORM) yazılması. Company, User, Employee, ve Role modellerinin oluşturulup aralarındaki ilişkilerin kurulması.
+- ADIM 3: Authentication (Giriş/Çıkış) ve Middleware yapıları ile Role-Based Access Control (Yetki) mimarisinin kurulması.
+- ADIM 4: Excel Yükleme (Upload) modülünün yazılması ve arka planda verilerin parse edilerek veritabanına kaydedilmesi işlevi.
+- ADIM 5: Dashboard arayüzünün tamamlanması, çalışanların listelendiği gelişmiş veri tablosunun (Data Table) oluşturulması.
+
+Eğer anladıysan, lütfen Adım 1'i uygulamak için hazır olduğunu belirt ve proje kurulumuna başla.
