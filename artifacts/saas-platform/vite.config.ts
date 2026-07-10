@@ -14,8 +14,15 @@ if (Number.isNaN(port) || port <= 0) {
 
 const basePath = process.env.BASE_PATH || '/';
 
-export default defineConfig({
-  base: basePath,
+export default defineConfig(() => {
+  console.log('--- Vite Config Load ---');
+  console.log('API_URL:', process.env.API_URL);
+  console.log('PORT:', process.env.PORT);
+  console.log('BASE_PATH:', process.env.BASE_PATH);
+  console.log('------------------------');
+
+  return {
+    base: basePath,
   plugins: [
     react(),
     tailwindcss(),
