@@ -14,7 +14,7 @@ if (Number.isNaN(port) || port <= 0) {
 
 const basePath = process.env.BASE_PATH || '/';
 
-export default defineConfig(() => {
+export default defineConfig(async () => {
   console.log('--- Vite Config Load ---');
   console.log('API_URL:', process.env.API_URL);
   console.log('PORT:', process.env.PORT);
