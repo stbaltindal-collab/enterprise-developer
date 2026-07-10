@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { useQueryClient } from '@tanstack/react-query';
 import { useGetCurrentUser, useLogout, AuthUser, getGetCurrentUserQueryKey } from '@workspace/api-client-react';
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -58,10 +59,12 @@ function AppSidebar({ user }: { user: AuthUser }) {
 function TopNav({ user }: { user: AuthUser }) {
   const logout = useLogout();
   const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
 
   const handleLogout = () => {
     logout.mutate(undefined, {
       onSuccess: () => {
+        queryClient.clear();
         setLocation('/login');
       },
     });
