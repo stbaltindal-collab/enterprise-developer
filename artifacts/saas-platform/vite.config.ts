@@ -79,4 +79,5 @@ export default defineConfig(async () => {
     host: '0.0.0.0',
     allowedHosts: true,
   },
+};
 });
