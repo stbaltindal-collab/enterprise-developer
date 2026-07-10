@@ -21,7 +21,7 @@ function AppRouter() {
   return (
     <Switch>
       <Route path="/login" component={Login} />
-      <Route path="/:rest*">
+      <Route>
         <AppLayout>
           <Switch>
             <Route path="/" component={Dashboard} />
