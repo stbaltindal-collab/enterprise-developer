@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useLogin, useGetCurrentUser, getGetCurrentUserQueryKey } from '@workspace/api-client-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,6 +21,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function Login() {
   const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
   const loginMutation = useLogin();
   const { data: user, isLoading: isLoadingUser } = useGetCurrentUser({
     query: { retry: false, queryKey: getGetCurrentUserQueryKey() },
@@ -43,7 +45,10 @@ export default function Login() {
     loginMutation.mutate(
       { data: values },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          // Invalidate & refetch the current-user query so AppLayout
+          // sees the authenticated user before navigating (prevents redirect loop).
+          await queryClient.refetchQueries({ queryKey: getGetCurrentUserQueryKey() });
           setLocation('/dashboard');
         },
       }

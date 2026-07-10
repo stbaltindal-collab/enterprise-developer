@@ -136,10 +136,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    if (isError) {
+    // Only redirect after loading settles — never redirect while a refetch is in-flight
+    if (!isLoading && isError) {
       setLocation('/login');
     }
-  }, [isError, setLocation]);
+  }, [isLoading, isError, setLocation]);
 
   if (isLoading) {
     return (
@@ -153,7 +154,15 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    return null;
+    // isError → useEffect will redirect to /login; show spinner so there's no blank flash
+    return (
+      <div className="min-h-screen w-full flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground font-medium">Redirecting…</p>
+        </div>
+      </div>
+    );
   }
 
   return (
